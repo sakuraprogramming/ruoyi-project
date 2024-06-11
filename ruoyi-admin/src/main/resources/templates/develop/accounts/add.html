@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增【请填写功能名称】')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-accounts-add">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">账号名：</label>
+                    <div class="col-sm-8">
+                        <input name="accountName" class="form-control" type="text" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">姓名：</label>
+                    <div class="col-sm-8">
+                        <input name="userName" class="form-control" type="text" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">密码：</label>
+                    <div class="col-sm-8">
+                        <input name="userPassword" class="form-control" type="text" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">身份：</label>
+                    <div class="col-sm-8">
+                        <input name="identify" class="form-control" type="text" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">学校：</label>
+                    <div class="col-sm-8">
+                        <input name="school" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">头像：</label>
+                    <div class="col-sm-8">
+                        <textarea name="avatar" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "develop/accounts"
+        $("#form-accounts-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-accounts-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

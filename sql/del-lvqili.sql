@@ -3,7 +3,7 @@ drop table if exists accounts;
 
 create table accounts
 (
-    accountId    bigint(20)                         not null auto_increment comment '账号ID',
+    accountId    bigint(20)                         not null auto_increment primary key comment '账号ID',
     accountName  varchar(216)                       not null comment '账号名',
     userName     varchar(216)                       not null comment '姓名',
     userPassword varchar(216)                       not null comment '密码',

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.develop.mapper.AccountsMapper">
+
+    <resultMap type="Accounts" id="AccountsResult">
+        <result property="accountId" column="accountId"/>
+        <result property="accountName" column="accountName"/>
+        <result property="userName" column="userName"/>
+        <result property="userPassword" column="userPassword"/>
+        <result property="identify" column="identify"/>
+        <result property="school" column="school"/>
+        <result property="groupType" column="groupType"/>
+        <result property="avatar" column="avatar"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+    </resultMap>
+
+    <sql id="selectAccountsVo">
+        select accountId,
+               accountName,
+               userName,
+               userPassword,
+               identify,
+               school,
+               groupType,
+               avatar,
+               createTime,
+               updateTime
+        from accounts
+    </sql>
+
+    <select id="selectAccountsList" parameterType="Accounts" resultMap="AccountsResult">
+        <include refid="selectAccountsVo"/>
+        <where>
+            <if test="accountName != null  and accountName != ''">and accountName like concat('%', #{accountName},
+                '%')
+            </if>
+            <if test="userName != null  and userName != ''">and userName like concat('%', #{userName}, '%')</if>
+            <if test="userPassword != null  and userPassword != ''">and userPassword = #{userPassword}</if>
+            <if test="identify != null  and identify != ''">and identify = #{identify}</if>
+            <if test="school != null  and school != ''">and school = #{school}</if>
+            <if test="groupType != null  and groupType != ''">and groupType = #{groupType}</if>
+            <if test="avatar != null  and avatar != ''">and avatar = #{avatar}</if>
+            <if test="createTime != null ">and createTime = #{createTime}</if>
+            <if test="updateTime != null ">and updateTime = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectAccountsByAccountId" parameterType="Long" resultMap="AccountsResult">
+        <include refid="selectAccountsVo"/>
+        where accountId = #{accountId}
+    </select>
+
+    <insert id="insertAccounts" parameterType="Accounts" useGeneratedKeys="true" keyProperty="accountId">
+        insert into accounts
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountName != null and accountName != ''">accountName,</if>
+            <if test="userName != null and userName != ''">userName,</if>
+            <if test="userPassword != null and userPassword != ''">userPassword,</if>
+            <if test="identify != null and identify != ''">identify,</if>
+            <if test="school != null">school,</if>
+            <if test="groupType != null">groupType,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="updateTime != null">updateTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountName != null and accountName != ''">#{accountName},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="userPassword != null and userPassword != ''">#{userPassword},</if>
+            <if test="identify != null and identify != ''">#{identify},</if>
+            <if test="school != null">#{school},</if>
+            <if test="groupType != null">#{groupType},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAccounts" parameterType="Accounts">
+        update accounts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountName != null and accountName != ''">accountName = #{accountName},</if>
+            <if test="userName != null and userName != ''">userName = #{userName},</if>
+            <if test="userPassword != null and userPassword != ''">userPassword = #{userPassword},</if>
+            <if test="identify != null and identify != ''">identify = #{identify},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="groupType != null">groupType = #{groupType},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+        </trim>
+        where accountId = #{accountId}
+    </update>
+
+    <delete id="deleteAccountsByAccountId" parameterType="Long">
+        delete
+        from accounts
+        where accountId = #{accountId}
+    </delete>
+
+    <delete id="deleteAccountsByAccountIds" parameterType="String">
+        delete from accounts where accountId in
+        <foreach item="accountId" collection="array" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </delete>
+
+</mapper>
